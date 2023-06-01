@@ -30,23 +30,27 @@ function LoginProcess() {
         // console.log('id_token_docode: ', jwt_decode(res.data.id_token));
         setToken(res);
       });
+
+    //
   };
 
   const bring_user_info = async () => {
     await axios
-      .get('https://kauth.kakao.com/v2/user/me', {
+      .get('/v2/user/me', {
         headers: {
           Authorization: `Bearer ${token.data.access_token}`,
           'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
         },
       })
-      .then((res) => console.log(res));
+      .then((res) => {
+        console.log('사용자 정보 가져오기 ', res);
+      });
   };
 
   useEffect(get_token, []);
   if (token) {
-    console.log(token);
-    console.log('access token: ', token.data.access_token);
+    // console.log(token);
+    // console.log('access token: ', token.data.access_token);
     bring_user_info();
   }
 
