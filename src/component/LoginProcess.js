@@ -4,7 +4,6 @@ import jwt_decode from 'jwt-decode';
 import { useEffect, useState } from 'react';
 
 function LoginProcess() {
-  const [token, setToken] = useState(null);
   const [userObj, setUserObj] = useState(null);
   const REST_API_KEY = '60af673ea132c4e08ec37a492dca87ab';
   const REDIRECT_URI = 'http://localhost:3000/loginProcess';
@@ -12,17 +11,17 @@ function LoginProcess() {
   //url에 인가코드가 있음
   const code = new URLSearchParams(window.location.search).get('code');
 
-  useEffect(() => {
-    const body = {
-      grant_type: 'authorization_code',
-      client_id: REST_API_KEY,
-      redirect_uri: REDIRECT_URI,
-      code: code,
-    };
+  const body = {
+    grant_type: 'authorization_code',
+    client_id: REST_API_KEY,
+    redirect_uri: REDIRECT_URI,
+    code: code,
+  };
 
+  useEffect(() => {
     const sequential = async () => {
       //token 받기
-      const res = await axios.post(
+      const token = await axios.post(
         'https://kauth.kakao.com/oauth/token',
         body,
         {
@@ -34,14 +33,23 @@ function LoginProcess() {
       //사용자 정보 가져오기
       const user_info = await axios.get('/v2/user/me', {
         headers: {
-          Authorization: `Bearer ${res.data.access_token}`,
+          Authorization: `Bearer ${token.data.access_token}`,
           'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
         },
       });
-      console.log(user_info);
+      setUserObj(user_info.data);
     };
     sequential();
-  });
+  }, []);
+
+  if (userObj) {
+    //처음에는 userObj값이 null이지만 useEffect함수를 실행한 후 객체 값이 들어간다.
+    console.log(userObj);
+    localStorage.setItem('id', userObj.id);
+    localStorage.setItem('user_nickname', userObj.properties.nickname);
+    localStorage.setItem('user_profile', userObj.properties.profile_image);
+    window.location.href = '/';
+  }
 
   return (
     <>
