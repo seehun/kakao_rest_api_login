@@ -1,11 +1,10 @@
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { useEffect, useState } from 'react';
+import { REST_API_KEY, REDIRECT_URI } from '../config';
 
 function Home() {
   const [isLogIn, setIsLogIn] = useState(false);
-  const REST_API_KEY = '60af673ea132c4e08ec37a492dca87ab';
-  const REDIRECT_URI = 'http://localhost:3000';
 
   useEffect(() => {
     if (!localStorage.getItem('id')) {

@@ -2,11 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { useEffect, useState } from 'react';
+import { REST_API_KEY, REDIRECT_URI } from '../config';
 
 function LoginProcess() {
   const [userObj, setUserObj] = useState(null);
-  const REST_API_KEY = '60af673ea132c4e08ec37a492dca87ab';
-  const REDIRECT_URI = 'http://localhost:3000/loginProcess';
 
   //url에 인가코드가 있음
   const code = new URLSearchParams(window.location.search).get('code');

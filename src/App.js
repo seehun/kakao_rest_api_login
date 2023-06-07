@@ -1,8 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
-import Home from './Home';
-import Login from './Login';
-import LoginProcess from './LoginProcess';
-import { useState } from 'react';
+import Home from './components/Home';
+import Login from './components/Login';
+import LoginProcess from './components/LoginProcess';
 
 function App() {
   return (

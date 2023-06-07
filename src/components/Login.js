@@ -1,8 +1,7 @@
 import React from 'react';
+import { REST_API_KEY, REDIRECT_URI } from '../config';
 
 function Login() {
-  const REST_API_KEY = '60af673ea132c4e08ec37a492dca87ab';
-  const REDIRECT_URI = 'http://localhost:3000/loginProcess';
   return (
     <>
       <div>kakao login</div>
