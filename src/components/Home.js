@@ -1,7 +1,7 @@
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { useEffect, useState } from 'react';
-import { REST_API_KEY, REDIRECT_URI } from '../config';
+import { REST_API_KEY, REDIRECT_URI, ADMIN_KEY } from '../config';
 
 function Home() {
   const [isLogIn, setIsLogIn] = useState(false);
@@ -15,15 +15,24 @@ function Home() {
     }
   }, []);
 
-  const logout = () => {
+  const logout = async () => {
+    //사용자 액세스 토큰과 리프레시 토큰을 모두 만료시킨다.
+    const logout_user = await axios.post(
+      'https://kapi.kakao.com/v1/user/logout',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        },
+      }
+    );
+    console.log(logout_user);
+
     localStorage.removeItem('id');
     localStorage.removeItem('user_nickname');
     localStorage.removeItem('user_profile');
+    localStorage.removeItem('access_token');
     setIsLogIn(false);
-
-    axios.get(
-      `https://kauth.kakao.com/oauth/logout?client_id=${REST_API_KEY}&logout_redirect_uri=${REDIRECT_URI}`
-    );
   };
 
   return (

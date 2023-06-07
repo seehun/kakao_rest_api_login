@@ -29,6 +29,7 @@ function LoginProcess() {
           },
         }
       );
+      localStorage.setItem('access_token', token.data.access_token); //logout할 때 필요
       //사용자 정보 가져오기
       const user_info = await axios.get('/v2/user/me', {
         headers: {
